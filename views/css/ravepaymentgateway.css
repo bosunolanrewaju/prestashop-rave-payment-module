@@ -1,0 +1,9 @@
+p.payment_module a.rave-payment-gateway {
+  background-image: url('../img/rave-logo.png');
+  background-size: 4.5%;
+}
+
+p.payment_module a.rave-payment-gateway:after {}
+
+.rave-logo {
+}
