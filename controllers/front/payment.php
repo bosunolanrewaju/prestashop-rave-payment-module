@@ -36,7 +36,7 @@
       $currencies_modules = $this->module->getCurrency($this->context->cart->id_currency);
 
       if (is_array($currencies_modules)) {
-        foreach ($currencies_module as $currency_module) {
+        foreach ($currencies_modules as $currency_module) {
           if ($currency_order->id == $currency_module['id_currency']) {
             return true;
           }

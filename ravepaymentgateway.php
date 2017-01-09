@@ -52,13 +52,11 @@
       if (!parent::install() || !$this->registerHook('displayPayment') || !$this->registerHook('displayPaymentReturn') || !Configuration::updateValue('RAVEPAYMENTGATEWAY_NAME', 'rave')) {
         return false;
       }
-      return true;
-    }
 
-    public function hookDisplayPayment($params)
-    {
-      $controller = $this->getHookController('displayPayment');
-      return $controller->run($params);
+      if (!$this->installOrderState())
+        return false;
+
+      return true;
     }
 
     public function getHookController($hook_name)
@@ -68,4 +66,57 @@
       $controller = new $controller_name($this, __FILE__, $this->_path);
       return $controller;
     }
+
+    public function hookDisplayPayment($params)
+    {
+      $controller = $this->getHookController('displayPayment');
+      return $controller->run($params);
+    }
+
+    public function hookDisplayPaymentReturn($params)
+    {
+      $controller = $this->getHookController('displayPaymentReturn');
+      return $controller->run($params);
+    }
+
+    public function getContent()
+    {
+      $controller = $this->getHookController('getContent');
+      return $controller->run();
+    }
+
+    public function installOrderState()
+    {
+      if (!Configuration::get('PS_OS_RAVE_PENDING')) {
+        $order_state = new OrderState();
+        $order_state->send_email = false;
+        $order_state->module_name = $this->name;
+        $order_state->invoice = false;
+        $order_state->color = '#98c3ff';
+        $order_state->logable = true;
+        $order_state->shipped = false;
+        $order_state->unremovable = false;
+        $order_state->delivery = false;
+        $order_state->hidden = false;
+        $order_state->paid = false;
+        $order_state->deleted = false;
+        $order_state->name = array(
+          (int)Configuration::get('PS_LANG_DEFAULT') => pSQL($this->l('Rave Payment Gateway - Pending resolution'))
+        );
+
+        if ($order_state->add()) {
+          // Save order state id in tehe config table
+          Configuration::updateValue('PS_OS_RAVE_PENDING', $order_state->id);
+          // Clone module logo into the order state logo dir
+          copy(dirname(__FILE__).'/views/img/loading.gif', dirname(__FILE__).'/../../img/os/'.$order_state->id.'.gif');
+          copy(dirname(__FILE__).'/views/img/loading.gif', dirname(__FILE__).'/../../img/tmp/order_state_mini_'.$order_state->id.'.gif');
+
+        } else {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
   }
