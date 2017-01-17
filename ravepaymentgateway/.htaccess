@@ -1,4 +1,0 @@
-Deny from all
-
-/modules/ravepaymentgateway/controllers
-/modules/ravepaymentgateway/views/templates/

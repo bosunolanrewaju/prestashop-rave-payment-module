@@ -30,14 +30,10 @@ Rave is available in:
 Safety Measure: Please make a backup of your website before installing any 3rd party module on your Prestashop site.
 
 *   Download the payment module to your computer from [here](#).
+*   Unzip (Extract) the content of the zip and copy the __ravepaymentgateway__ folder into your __Prestashop__ > __modules__ folder.
 *   Login to your Back Office.
-*   Go to "Modules and Services" in the menu, and click ‘Add a new module’ at the top of the screen.
-*   Choose the zip-file you just downloaded and upload.
-
-##
-![Rave Installation Screenshot 1](https://cloud.githubusercontent.com/assets/8383666/21759882/17ad7e6a-d648-11e6-87be-dc0f8f6794ad.png)
-
-*   Search for __Rave Payment Gateway__ module, and click the ‘Install’ button on the right.
+*   Go to "Modules and Services" in the menu, and search for __Rave Payment Gateway__ module.
+*   Click the ‘Install’ button on the right.
 
 ##
 ![Rave Installation Screenshot 2](https://cloud.githubusercontent.com/assets/8383666/21759905/567ced88-d648-11e6-8787-d786fef2bf10.png)
