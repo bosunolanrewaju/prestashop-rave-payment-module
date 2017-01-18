@@ -17,8 +17,8 @@
 {else}
   <p class="warning">
     <h3>{l s='Order Reference number #%s' sprintf=$reference mod='ravepaymentgateway'}</h3>
-    {l s='We have noticed that there is a problem with your order.", mod='ravepaymentgateway'}
-    {l s="If you think this is an error, you can contact our' mod='ravepaymentgateway'}
+    {l s='We have noticed that there is a problem with your order.' mod='ravepaymentgateway'}
+    {l s='If you think this is an error, you can contact our' mod='ravepaymentgateway'}
     <a href="{$link->getPageLink('contact', true)|escape:'html'}">
       {l s='customer service department.' mod='ravepaymentgateway'}
     </a>.
