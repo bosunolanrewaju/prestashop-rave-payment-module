@@ -10,7 +10,8 @@ class RavePaymentGatewayGetContentController
   {
     $this->file = $file;
     $this->module = $module;
-    $this->context = Context::getContext(); $this->_path = $path;
+    $this->context = Context::getContext();
+    $this->_path = $path;
   }
 
   public function processConfiguration()
@@ -18,6 +19,7 @@ class RavePaymentGatewayGetContentController
     if (Tools::isSubmit('ravepaymentgateway_form'))
     {
       Configuration::updateValue('RAVE_PB_KEY', Tools::getValue('RAVE_PB_KEY'));
+      Configuration::updateValue('RAVE_SC_KEY', Tools::getValue('RAVE_SC_KEY'));
       Configuration::updateValue('RAVE_MODAL_TITLE', Tools::getValue('RAVE_MODAL_TITLE'));
       Configuration::updateValue('RAVE_MODAL_DESC', Tools::getValue('RAVE_MODAL_DESC'));
       Configuration::updateValue('RAVE_MODAL_LOGO', Tools::getValue('RAVE_MODAL_LOGO'));
@@ -33,6 +35,12 @@ class RavePaymentGatewayGetContentController
         'name'  => 'RAVE_PB_KEY',
         'label' => $this->module->l('Pay Button Public Key'),
         'desc'  => 'Your Pay Button public key',
+        'type'  => 'text'
+      ),
+      array(
+        'name'  => 'RAVE_SC_KEY',
+        'label' => $this->module->l('Pay Button Secret Key'),
+        'desc'  => 'Your Pay Button secret key',
         'type'  => 'text'
       ),
       array(
@@ -82,12 +90,11 @@ class RavePaymentGatewayGetContentController
     $helper->tpl_vars = array(
       'fields_value' => array(
         'RAVE_PB_KEY' => Tools::getValue('RAVE_PB_KEY', Configuration::get('RAVE_PB_KEY')),
+        'RAVE_SC_KEY' => Tools::getValue('RAVE_SC_KEY', Configuration::get('RAVE_SC_KEY')),
         'RAVE_MODAL_TITLE' => Tools::getValue('RAVE_MODAL_TITLE', Configuration::get('RAVE_MODAL_TITLE')),
         'RAVE_MODAL_DESC' => Tools::getValue('RAVE_MODAL_DESC', Configuration::get('RAVE_MODAL_DESC')),
         'RAVE_MODAL_LOGO' => Tools::getValue('RAVE_MODAL_LOGO', Configuration::get('RAVE_MODAL_LOGO')),
         'RAVE_PAY_BUTTON_TEXT' => Tools::getValue('RAVE_PAY_BUTTON_TEXT', Configuration::get('RAVE_PAY_BUTTON_TEXT')),
-        'MYMOD_API_CRED_ID' => Tools::getValue('MYMOD_API_CRED_ID', Configuration::get('MYMOD_API_CRED_ID')),
-        'MYMOD_API_CRED_SALT' => Tools::getValue('MYMOD_API_CRED_SALT', Configuration::get('MYMOD_API_CRED_SALT')),
       ),
       'languages' => $this->context->controller->getLanguages()
     );
