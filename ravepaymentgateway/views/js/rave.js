@@ -33,7 +33,7 @@ var redirectTo = function(url) {
     form.appendChild(createDOMElement('input', {name: 'amount', value: amount}));
     form.appendChild(createDOMElement('input', {name: 'currency', value: currency}));
     form.appendChild(createDOMElement('input', {name: 'customer', value: customerEmail}));
-    // console.log(form);
+    document.body.appendChild(form);
     form.submit();
   }
 };
