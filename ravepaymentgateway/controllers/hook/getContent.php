@@ -20,6 +20,7 @@ class RavePaymentGatewayGetContentController
     {
       Configuration::updateValue('RAVE_PB_KEY', Tools::getValue('RAVE_PB_KEY'));
       Configuration::updateValue('RAVE_SC_KEY', Tools::getValue('RAVE_SC_KEY'));
+      Configuration::updateValue('RAVE_GO_LIVE', Tools::getValue('RAVE_GO_LIVE'));
       Configuration::updateValue('RAVE_MODAL_TITLE', Tools::getValue('RAVE_MODAL_TITLE'));
       Configuration::updateValue('RAVE_MODAL_DESC', Tools::getValue('RAVE_MODAL_DESC'));
       Configuration::updateValue('RAVE_MODAL_LOGO', Tools::getValue('RAVE_MODAL_LOGO'));
@@ -30,6 +31,14 @@ class RavePaymentGatewayGetContentController
 
   public function renderForm()
   {
+    $golive_option = array(
+      array(
+        'id'    => 'GO_LIVE',
+        'name'  => $this->module->l('Switch to live account'),
+        'val'   => 1
+      ),
+    );
+
     $inputs = array(
       array(
         'name'  => 'RAVE_PB_KEY',
@@ -42,6 +51,17 @@ class RavePaymentGatewayGetContentController
         'label' => $this->module->l('Pay Button Secret Key'),
         'desc'  => 'Your Pay Button secret key',
         'type'  => 'text'
+      ),
+      array(
+        'name'  => 'RAVE',
+        'label' => $this->module->l('Go Live'),
+        'desc'  => 'Switch to live credentials (Live Public and Secret Key)',
+        'type'  => 'checkbox',
+        'values'=> array(
+          'query' => $golive_option ,
+          'id'    => 'id',
+          'name'  => 'name'
+        )
       ),
       array(
         'name'  => 'RAVE_MODAL_TITLE',
@@ -91,6 +111,7 @@ class RavePaymentGatewayGetContentController
       'fields_value' => array(
         'RAVE_PB_KEY' => Tools::getValue('RAVE_PB_KEY', Configuration::get('RAVE_PB_KEY')),
         'RAVE_SC_KEY' => Tools::getValue('RAVE_SC_KEY', Configuration::get('RAVE_SC_KEY')),
+        'RAVE_GO_LIVE' => Tools::getValue('RAVE_GO_LIVE', Configuration::get('RAVE_GO_LIVE')),
         'RAVE_MODAL_TITLE' => Tools::getValue('RAVE_MODAL_TITLE', Configuration::get('RAVE_MODAL_TITLE')),
         'RAVE_MODAL_DESC' => Tools::getValue('RAVE_MODAL_DESC', Configuration::get('RAVE_MODAL_DESC')),
         'RAVE_MODAL_LOGO' => Tools::getValue('RAVE_MODAL_LOGO', Configuration::get('RAVE_MODAL_LOGO')),
