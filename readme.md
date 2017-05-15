@@ -6,7 +6,6 @@ With Rave, it is easy and smooth to accept card and bank account payments in you
  - **Tags:** prestashop, rave, payment form, payment gateway, bank account, credit card, debit card, nigeria, kenya, international, mastercard, visa
  - **Requires at least:** 1.5
  - **Tested up to:** 1.6
- - **Stable tag:** 0.0.1
 
 
 ## Description

@@ -6,7 +6,6 @@
         <button class="rave-pay-now-button pull-right">{$btntext}</button>
       </span>
       <script type="text/javascript">
-        console.log("currency: ", "{$currency}");
         $('.rave-pay-now-button').click(function() {
           var config = {
             amount : "{$amount}",
