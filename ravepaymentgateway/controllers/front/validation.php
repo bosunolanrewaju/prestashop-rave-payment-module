@@ -112,7 +112,7 @@
 
     private function _fetchTransaction($txRef, $secretKey) {
 
-      $URL = $this->context->cookie->base_url . "flwv3-pug/getpaidx/api/verify";
+      $URL = $this->context->cookie->base_url . "/flwv3-pug/getpaidx/api/verify";
       $data = http_build_query(array(
         'tx_ref' => $txRef,
         'SECKEY' => $secretKey
