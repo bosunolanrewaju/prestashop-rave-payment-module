@@ -27,6 +27,7 @@
       }
 
       $currency_order = new Currency($this->context->cart->id_currency);
+      $country = new Country((int)$address_billing->id_country);
       $customer = new Customer($this->context->cart->id_customer);
       $this->context->smarty->assign(array(
         'pb_key'  => Configuration::get('RAVE_PB_KEY'),
@@ -35,7 +36,7 @@
         'logo'    => Configuration::get('RAVE_MODAL_LOGO'),
         'btntext' => $btntext ? $btntext : 'PAY NOW',
         'currency'=> $currency_order->iso_code,
-        'country' => $this->context->country->iso_code,
+        'country' => $country->iso_code,
         'txref'   => "PS_" . $this->context->cart->id . '_' . time(),
         'amount'  => (float)$this->context->cart->getOrderTotal(true, Cart::BOTH),
         'customer_email' => $customer->email,
