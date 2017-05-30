@@ -41,13 +41,14 @@
       $payment_customer = Tools::getValue('customer');
       $payment_status   = Tools::getValue('status_code');
       $tx_ref           = Tools::getValue('tx_ref');
+      $flw_ref          = Tools::getValue('flw_ref');
       $sec_key          = Configuration::get('RAVE_SC_KEY');
 
       $extra_vars = array(
         'transaction_id' => $tx_ref,
       );
 
-      $txn = json_decode( $this->_fetchTransaction($tx_ref, $sec_key) );
+      $txn = json_decode( $this->_fetchTransaction($flw_ref, $sec_key) );
       $is_successful = !empty($txn->data) && $this->_is_successful($txn->data);
 
       $message  = 'New Order Details - <br>'.
@@ -110,11 +111,11 @@
       Tools::redirect($url);
     }
 
-    private function _fetchTransaction($txRef, $secretKey) {
+    private function _fetchTransaction($flwRef, $secretKey) {
 
       $URL = $this->context->cookie->base_url . "/flwv3-pug/getpaidx/api/verify";
       $data = http_build_query(array(
-        'tx_ref' => $txRef,
+        'flw_ref' => $flwRef,
         'SECKEY' => $secretKey
       ));
 
@@ -126,7 +127,6 @@
       curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($ch, CURLOPT_SSLVERSION, 3);
       $output = curl_exec($ch);
       $failed = curl_errno($ch);
       $error = curl_error($ch);
