@@ -6,7 +6,6 @@ With Rave, it is easy and smooth to accept card and bank account payments in you
  - **Tags:** prestashop, rave, payment form, payment gateway, bank account, credit card, debit card, nigeria, kenya, international, mastercard, visa
  - **Requires at least:** 1.5
  - **Tested up to:** 1.6
- - **Stable tag:** 0.0.1
 
 
 ## Description
@@ -29,15 +28,11 @@ Rave is available in:
 
 Safety Measure: Please make a backup of your website before installing any 3rd party module on your Prestashop site.
 
-*   Download the payment module to your computer from [here](#).
+*   Download the payment module to your computer from [here](https://github.com/bosunolanrewaju/prestashop-rave-payment-module/releases/download/v0.1.3/ravepaymentgateway.zip).
+*   Unzip (Extract) the content of the zip and copy the __ravepaymentgateway__ folder into your __Prestashop__ > __modules__ folder.
 *   Login to your Back Office.
-*   Go to "Modules and Services" in the menu, and click ‘Add a new module’ at the top of the screen.
-*   Choose the zip-file you just downloaded and upload.
-
-##
-![Rave Installation Screenshot 1](https://cloud.githubusercontent.com/assets/8383666/21759882/17ad7e6a-d648-11e6-87be-dc0f8f6794ad.png)
-
-*   Search for __Rave Payment Gateway__ module, and click the ‘Install’ button on the right.
+*   Go to "Modules and Services" in the menu, and search for __Rave Payment Gateway__ module.
+*   Click the ‘Install’ button on the right.
 
 ##
 ![Rave Installation Screenshot 2](https://cloud.githubusercontent.com/assets/8383666/21759905/567ced88-d648-11e6-8787-d786fef2bf10.png)
@@ -53,10 +48,12 @@ Safety Measure: Please make a backup of your website before installing any 3rd p
 
 The module is installed and must be configured.
 
-![Rave Settings Screenshot](https://cloud.githubusercontent.com/assets/8383666/21759854/d3eb89ec-d647-11e6-8b47-35d3ae38de99.png)
+![Rave Settings Screenshot](https://cloud.githubusercontent.com/assets/8383666/26606729/01622d38-458b-11e7-913c-ec53aa42c6fd.png)
 
 *  Press the __Configure__ button next to the __Rave Payment Gateway__ module to configure the module and fill the settings form appropriately.
 * __Pay Button Public Key__ - Enter your public key which can be retrieved from "Pay Buttons" page on your Rave account dashboard.
+* __Pay Button Secret Key__ - Enter your secret key which can be retrieved from "Pay Buttons" page on your Rave account dashboard.
+* __Go live__ - Switch to live account (Must be set for production).
 * __Modal Title__ - (Optional) customize the title of the Pay Modal. Default is FLW PAY.
 * __Modal Description__ - (Optional) customize the description on the Pay Modal. Default is FLW PAY MODAL.
 * __Modal Logo__ - (Optional) customize the logo on the Pay Modal. Enter a full url (with 'http'). Default is Rave logo.

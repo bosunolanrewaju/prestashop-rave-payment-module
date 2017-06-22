@@ -24,16 +24,18 @@ var redirectTo = function(url) {
   if (url && response) {
     var responseCode = (response.paymentType === 'account') ? response.acctvalrespcode : response.vbvrespcode;
     var txRef = response.txRef;
+    var flwRef = response.flwRef;
     var amount = response.amount;
     var currency = response.currency;
     var customerEmail = response.customer.email;
     var form = createDOMElement('form', {method: 'post', action: url});
     form.appendChild(createDOMElement('input', {name: 'status_code', value: responseCode}));
     form.appendChild(createDOMElement('input', {name: 'tx_ref', value: txRef}));
+    form.appendChild(createDOMElement('input', {name: 'flw_ref', value: flwRef}));
     form.appendChild(createDOMElement('input', {name: 'amount', value: amount}));
     form.appendChild(createDOMElement('input', {name: 'currency', value: currency}));
     form.appendChild(createDOMElement('input', {name: 'customer', value: customerEmail}));
-    // console.log(form);
+    document.body.appendChild(form);
     form.submit();
   }
 };

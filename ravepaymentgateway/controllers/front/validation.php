@@ -33,26 +33,35 @@
         Tools::redirect('index.php?controller=order&step=1');
 
       // Setting data
-      $message = null;
-      $currency = $this->context->currency;
-      $total = (float)$cart->getOrderTotal(true, Cart::BOTH);
-      $amount_paid = Tools::getValue('amount');
+      $message          = null;
+      $currency         = $this->context->currency;
+      $total            = (float)$cart->getOrderTotal(true, Cart::BOTH);
+      $amount_paid      = Tools::getValue('amount');
       $payment_currency = Tools::getValue('currency');
       $payment_customer = Tools::getValue('customer');
-      $payment_status = Tools::getValue('status_code');
+      $payment_status   = Tools::getValue('status_code');
+      $tx_ref           = Tools::getValue('tx_ref');
+      $flw_ref          = Tools::getValue('flw_ref');
+      $sec_key          = Configuration::get('RAVE_SC_KEY');
+
       $extra_vars = array(
-        'transaction_id'    => Tools::getValue('tx_ref'),
+        'transaction_id' => $tx_ref,
       );
+
+      $txn = json_decode( $this->_fetchTransaction($flw_ref, $sec_key) );
+      $is_successful = !empty($txn->data) && $this->_is_successful($txn->data);
 
       $message  = 'New Order Details - <br>'.
                   'Transaction Ref: ' . $extra_vars['transaction_id'] . ' - <br>'.
                   'Amount Paid: ' . $amount_paid . ' - <br>'.
-                  'Payment Status: ' . ($payment_status == '00') ? 'successful' : 'failed' . ' - <br>'.
+                  'Payment Status: ' . $is_successful ? 'successful' : 'failed' . ' - <br>'.
                   'Payment Currency: ' . $payment_currency . ' - <br>'.
                   'Customer: ' . $payment_customer . ' - <br>';
 
       // Verify payment data
-      if ('00' === Tools::getValue('status_code')) {
+
+      if ( $is_successful ) {
+
         $order_status_id = 'PS_OS_PAYMENT';
 
         if ($amount_paid != $total) {
@@ -61,15 +70,21 @@
           $message .= 'Attention: This order have been placed on hold and payment flagged because of incorrect payment amount. Please, look into it. - <br>';
           $message .= 'Amount paid: '.$currency->iso_code.' '.$amount_paid.'  - <br> Order amount: '.
                       $currency->iso_code.' '.$total.'  - <br> Reference: ' .$extra_vars['transaction_id'];
+
         } elseif ($payment_currency != $currency->iso_code) {
+
           $order_status_id = 'PS_OS_RAVE_PENDING';
 
           $message .= 'Attention: This order has been placed on hold and payment flagged because of incorrect payment currency. Please, look into it.  - <br>';
           $message .= 'Payment currency: '.$payment_currency.'  - <br> Order currency: '.
                       $currency->iso_code.'  - <br> Reference: ' .$extra_vars['transaction_id'];
+
         }
+
       } else {
+
        $order_status_id = 'PS_OS_ERROR';
+
       }
 
       // Validate Order
@@ -94,5 +109,35 @@
               '&txref='.$extra_vars['transaction_id'];
 
       Tools::redirect($url);
+    }
+
+    private function _fetchTransaction($flwRef, $secretKey) {
+
+      $URL = $this->context->cookie->base_url . "/flwv3-pug/getpaidx/api/verify";
+      $data = http_build_query(array(
+        'flw_ref' => $flwRef,
+        'SECKEY' => $secretKey
+      ));
+
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $URL);
+      curl_setopt($ch, CURLOPT_POST, true);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      $output = curl_exec($ch);
+      $failed = curl_errno($ch);
+      $error = curl_error($ch);
+      curl_close($ch);
+      return ($failed) ? $error : $output;
+
+    }
+
+    private function _is_successful($data) {
+
+      return $data->flwMeta->chargeResponse === '00' || $data->flwMeta->chargeResponse === '0';
+
     }
   }
