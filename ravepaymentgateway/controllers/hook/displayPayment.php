@@ -13,7 +13,7 @@
       $this->module = $module;
       $this->context = Context::getContext();
       $this->_path = $path;
-      $this->context->cookie->base_url = 'http://flw-pms-dev.eu-west-1.elasticbeanstalk.com';
+      $this->context->cookie->base_url = 'https://rave-api-v2.herokuapp.com';
 
     }
 
